@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ultra-Cheap Laptop Configurator</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        h1, h2 {
+            color: #333;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Ultra-Cheap Laptop Configurator</h1>
+    
+    <!-- Configuration options -->
+    <h2>Choose Your Laptop Configuration:</h2>
+    
+    <!-- Base Model -->
+    <label>
+        <input type="radio" name="configuration" value="base" data-price="70" checked>
+        Base Model ($70)
+        <p>Specs:</p>
+        <ul>
+            <li>4 ARM Cortex-A53 Crypto CPU</li>
+            <li>2GB RAM</li>
+            <li>64GB MicroSD (Included)</li>
+        </ul>
+    </label><br>
+    
+    <!-- Middle Model -->
+    <label>
+        <input type="radio" name="configuration" value="middle" data-price="80">
+        Middle Model ($80)
+        <p>Specs:</p>
+        <ul>
+            <li>2GB RAM</li>
+            <li>Amlogic S905X SoC</li>
+            <li>64GB MicroSD (Included)</li>
+        </ul>
+    </label><br>
+    
+    <!-- Top Model -->
+    <label>
+        <input type="radio" name="configuration" value="top" data-price="100">
+        Top Model ($100)
+        <p>Specs:</p>
+        <ul>
+            <li>4GB RAM</li>
+            <li>Rockchip RK3328 SoC</li>
+            <li>64GB MicroSD (Included)</li>
+        </ul>
+    </label><br>
+    
+    <!-- Storage Options -->
+    <h2>Storage Options:</h2>
+    
+    <!-- 64GB MicroSD (Included) -->
+    <label>
+        <input type="radio" name="storage" value="64gb" data-price="0" checked>
+        64GB MicroSD (Included)
+    </label><br>
+    
+    <!-- 128GB MicroSD -->
+    <label>
+        <input type="radio" name="storage" value="128gb" data-price="5">
+        128GB MicroSD (+$5)
+    </label><br>
+    
+    <!-- 256GB MicroSD -->
+    <label>
+        <input type="radio" name="storage" value="256gb" data-price="15">
+        256GB MicroSD (+$10)
+    </label><br>
+    
+    <!-- Display the total price -->
+    <h2>Total Price: $<span id="total-price">70</span></h2>
+    
+    <!-- JavaScript to update the total price -->
+    <script>
+        const configurationRadios = document.querySelectorAll('input[name="configuration"]');
+        const storageRadios = document.querySelectorAll('input[name="storage"]');
+        const totalPriceElement = document.getElementById('total-price');
+
+        function updateTotalPrice() {
+            let totalPrice = 0;
+
+            configurationRadios.forEach(radio => {
+                if (radio.checked) {
+                    totalPrice += parseFloat(radio.getAttribute('data-price'));
+                }
+            });
+
+            storageRadios.forEach(radio => {
+                if (radio.checked) {
+                    totalPrice += parseFloat(radio.getAttribute('data-price'));
+                }
+            });
+
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+        }
+
+        configurationRadios.forEach(radio => {
+            radio.addEventListener('change', updateTotalPrice);
+        });
+
+        storageRadios.forEach(radio => {
+            radio.addEventListener('change', updateTotalPrice);
+        });
+
+        // Initial update
+        updateTotalPrice();
+    </script>
+</body>
+</html>
