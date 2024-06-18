@@ -16,6 +16,18 @@
             display: block;
             margin-bottom: 10px;
         }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -26,8 +38,8 @@
     
     <!-- Base Model -->
     <label>
-        <input type="radio" name="configuration" value="middle" data-price="80">
-        Middle Model ($75)
+        <input type="radio" name="configuration" value="middle" data-price="80" checked>
+        Middle Model ($80)
         <p>Specs:</p>
         <ul>
             <li>2GB RAM</li>
@@ -35,7 +47,6 @@
             <li>64GB MicroSDXC (Included)</li>
         </ul>
     </label><br>
-    
     
     <!-- Storage Options -->
     <h2>Storage Options:</h2>
@@ -48,8 +59,8 @@
     
     <!-- 128GB MicroSDXC -->
     <label>
-        <input type="radio" name="storage" value="128gb" data-price="5">
-        128GB MicroSDXC (+$5)
+        <input type="radio" name="storage" value="128gb" data-price="10">
+        128GB MicroSDXC (+$10)
     </label><br>
     
     <!-- 256GB MicroSDXC -->
@@ -59,16 +70,21 @@
     </label><br>
     
     <!-- Display the total price -->
-    <h2>Total Price: $<span id="total-price">70</span></h2>
+    <h2>Total Price: $<span id="total-price">80</span></h2>
+
+    <!-- Allow the customer to order NanoMate via email -->
+    <button id="order-button">Order NanoMate Middle Model</button>
     
-    <!-- JavaScript to update the total price -->
+    <!-- JavaScript to update the total price and mailto link -->
     <script>
         const configurationRadios = document.querySelectorAll('input[name="configuration"]');
         const storageRadios = document.querySelectorAll('input[name="storage"]');
         const totalPriceElement = document.getElementById('total-price');
+        const orderButton = document.getElementById('order-button');
 
         function updateTotalPrice() {
             let totalPrice = 0;
+            let storageChoice = '';
 
             configurationRadios.forEach(radio => {
                 if (radio.checked) {
@@ -79,10 +95,22 @@
             storageRadios.forEach(radio => {
                 if (radio.checked) {
                     totalPrice += parseFloat(radio.getAttribute('data-price'));
+                    storageChoice = radio.value.toUpperCase();
                 }
             });
 
             totalPriceElement.textContent = totalPrice.toFixed(2);
+
+            updateMailtoLink(totalPrice.toFixed(2), storageChoice);
+        }
+
+        function updateMailtoLink(price, storageChoice) {
+            const email = "order@mastercoders.org";
+            const subject = `NanoMate Middle Model Order - 2GB RAM, ${storageChoice} Storage - $${price}`;
+            const body = `Hi,%0A%0AI would like to order a NanoMate Computer. My name is [Name] and I am hoping to get it by [Date - MM/DD/YYYY format]. Please let me know if this is possible, and what the total cost including shipping will be. My address is below:%0A%0A[Street address],%0A[Street address 2 - optional],%0A[City],%0A[State],%0A[Zip code/Pin code],%0A[Country]`;
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            orderButton.setAttribute('href', mailtoLink);
         }
 
         configurationRadios.forEach(radio => {
